@@ -10,6 +10,7 @@ import Glibc
 #else
 import Darwin.C
 #endif
+import Dispatch
 import Foundation
 
 public typealias Result = Int32
@@ -120,7 +121,7 @@ public func <<< (_ commands: String, _ path: String) -> Pipe {
     execute { result }
     return pipe
 }
-public prefix func <<< (_ object: Any) { print(object) }
+public prefix func <<< (_ object: Any) { DispatchQueue.main.async { print(object) } }
 
 public func >>> (_ pipe: Pipe, _ callback: ((Data) -> Void)) {
     let file = pipe.fileHandleForReading
